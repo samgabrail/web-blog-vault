@@ -130,9 +130,10 @@ vault read database/creds/my-role
 
 ## [Use the Vault API](https://www.vaultproject.io/api/secret/databases/index.html#generate-credentials)
 ### Sample Request
+Change the `X-Vault-Token` value below to work for yours.
 ```shell
 $ curl \
-    --header "X-Vault-Token: ..." \
+    --header "X-Vault-Token: s.lI9ntwIVMMZnnhxMRAPg4zu5" \
     http://127.0.0.1:8200/v1/database/creds/my-role
 ```
 
@@ -147,11 +148,12 @@ $ curl \
 ```
 
 ### Python Example
+Change the `X-Vault-Token` value below to yours.
 ```python
 response = requests.get(
 'http://127.0.0.1:8200/v1/database/creds/my-role',
 params={'q': 'requests+language:python'},
-headers={'X-Vault-Token': 's.2U3je9neQkO9OEutL6x8kdcz'},
+headers={'X-Vault-Token': 's.lI9ntwIVMMZnnhxMRAPg4zu5'},
 )
 json_response = response.json()
 Database.USER = json_response['data']['username']
