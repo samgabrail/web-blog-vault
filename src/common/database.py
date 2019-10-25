@@ -9,9 +9,13 @@ class Database(object):
     env.read_env()
     SERVER = env('DB_SERVER')
     PORT = env('DB_PORT')
-    URI = ''
+    # Uncomment USER and PASSWORD below to grab creds from .env file
+    #USER = env('DB_USER')
+    #PASSWORD = env('DB_PASSWORD')
+    # Uncomment USER and PASSWORD below to show Vault's functionality
     USER = None
     PASSWORD = None
+    URI = ''
     DATABASE = None
     #URI = "mongodb://127.0.0.1:27017"
     # URI = f"mongodb://{SERVER}:{PORT}"
@@ -26,12 +30,13 @@ class Database(object):
         json_response = response.json()
         Database.USER = json_response['data']['username']
         Database.PASSWORD = json_response['data']['password']
-        Database.URI = f'mongodb://{Database.USER}:{Database.PASSWORD}@{Database.SERVER}:{Database.PORT}'
 
     @staticmethod
     def initialize():
+        # Uncomment the line below to show Vault's functionality
         Database.buildURI()
-        print(f'Server: {Database.SERVER} and PORT: {Database.PORT} and URI: {Database.URI} and user: {Database.USER} and password: {Database.PASSWORD}')
+        Database.URI = f'mongodb://{Database.USER}:{Database.PASSWORD}@{Database.SERVER}:{Database.PORT}'
+        print(f'Server: {Database.SERVER} and PORT: {Database.PORT} and user: {Database.USER} and password: {Database.PASSWORD}')
         client = pymongo.MongoClient(Database.URI)
         Database.DATABASE = client['fullstack']
 
