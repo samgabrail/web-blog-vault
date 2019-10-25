@@ -45,4 +45,11 @@ class Database(object):
 
     @staticmethod
     def find_one(collection, query):
-        return Database.DATABASE[collection].find_one(query)
+        try:
+            return Database.DATABASE[collection].find_one(query)
+        except pymongo.errors.OperationFailure:
+            print(f'mongoDB auth failed due to creds expiring. Rotating creds now')
+            Database.initialize()
+            return Database.DATABASE[collection].find_one(query)
+
+        
