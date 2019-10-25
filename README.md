@@ -158,3 +158,17 @@ Database.USER = json_response['data']['username']
 Database.PASSWORD = json_response['data']['password']
 Database.URI = f'mongodb://{Database.USER}:{Database.PASSWORD}@{Database.SERVER}:{Database.PORT}'
 ```
+
+# Demo Steps
+
+0. Make sure you're logged out of the app. Have the VS code screen with the teriminal output showing. Also have the VS code screen side by side to the Chrome screen.
+1. Comment and uncomment the lines in `databse.py` and `.env` to show the static hard-coded creds scenario.
+2. Log into the app
+3. Show the stdout in VS code's terminal showing the hard-coded username and password are the same as those in the `.env` file.
+4. Browse the Blogs page to show that the creds don't expire.
+5. Log out of the app
+6. Comment and uncomment the lines in `databse.py` and `.env` to show the dynamic secrets scenario using Vault
+7. Log into the app
+8. Show the stdout in VS code's terminal showing the auto-generated username and password by vault.
+9. Browse the Blogs page to show that the creds expire and we get a message saying `mongoDB auth failed due to creds expiring. Rotating creds now`. Then we get new creds.
+10. Pivot over to a terminal with the mongo client running. Make sure you're logged in as an admin. Run the commands: `use admin` and `show users`. Show how the creds appear and disappear based on the timeout. You will need to browse the web blog to generate new creds.

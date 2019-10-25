@@ -17,8 +17,6 @@ class Database(object):
     PASSWORD = None
     URI = ''
     DATABASE = None
-    #URI = "mongodb://127.0.0.1:27017"
-    # URI = f"mongodb://{SERVER}:{PORT}"
 
     @staticmethod
     def buildURI():
