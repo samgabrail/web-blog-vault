@@ -68,13 +68,13 @@ vault operator init
 ```
 You get the following output. In production you typically would use [Vault's PGP and Keybase.io](https://www.vaultproject.io/docs/concepts/pgp-gpg-keybase.html) support to encrypt each of these keys so only one person has access to one key only.
 ```
-Unseal Key 1: VOOYrwXlaWwDWuZCqH0gjgmx/mjYQtGRtoLxmX86Pg8d
-Unseal Key 2: dmSynGa7RJSy62QNcL0kpfVN6g3TGqnFyKL1OHB87y/w
-Unseal Key 3: u4FNe+qksiMVd4PwOzLJV3ESepu7RWeKBq8k5d8hDM0O
-Unseal Key 4: PHtDhEQWUbgPjfKLV1ml4Mzm4WvZn5jwWP5c/D4f1DD7
-Unseal Key 5: 6S5CRlIUHgyDJQaHFaVcbtzOQPnr2UAszP4vhjv1cYP2
+Unseal Key 1: qFOyvMMQZWuB5a92Av+quaU7831P4OQVA3Rd2y7UYTIZ
+Unseal Key 2: bnOEsNnZ1CEWYSMiuHA9DYXCg2GLjE/nmPHiobFlTt3t
+Unseal Key 3: d03bEdVtlTu+kciOyx9EJ/R3nMujDCrim4HwlLWD5k73
+Unseal Key 4: FiMdy4Ra6OctR3m+Eul4Xv+tqudgA5+6P6fAZ3KXvXSX
+Unseal Key 5: syCYojeEp+yNv6JMwEjvQBj3JKib5ixAo18WlOhJlgj/
 
-Initial Root Token: s.GVw3pcKV1bsoqZiDCuxwMZvo
+Initial Root Token: s.aFb21AW0eA44GfcEvHU8C1M8
 
 Vault initialized with 5 key shares and a key threshold of 3. Please securely
 distribute the key shares printed above. When the Vault is re-sealed,
@@ -96,7 +96,7 @@ vault operator unseal
 
 ## Authenticate with the initial root token
 ```shell
-vault login s.GVw3pcKV1bsoqZiDCuxwMZvo
+vault login s.aFb21AW0eA44GfcEvHU8C1M8
 ```
 
 ## Enable the database secrets engine
