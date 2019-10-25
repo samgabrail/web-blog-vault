@@ -33,7 +33,7 @@ mongo --port 27017  --authenticationDatabase "admin" -u "sam" -p "test123"
 
 We used consul for our storage backend for Vault. Run the command below to start consul in dev mode and enable the UI.
 ```shell
-consul agent -dev -ui
+consul agent -data-dir /home/sam/SourcePrograms/consulData -bind 127.0.0.1 -ui -server -bootstrap
 ```
 
 You can then access the UI at:
@@ -68,13 +68,13 @@ vault operator init
 ```
 You get the following output. In production you typically would use [Vault's PGP and Keybase.io](https://www.vaultproject.io/docs/concepts/pgp-gpg-keybase.html) support to encrypt each of these keys so only one person has access to one key only.
 ```
-Unseal Key 1: qFOyvMMQZWuB5a92Av+quaU7831P4OQVA3Rd2y7UYTIZ
-Unseal Key 2: bnOEsNnZ1CEWYSMiuHA9DYXCg2GLjE/nmPHiobFlTt3t
-Unseal Key 3: d03bEdVtlTu+kciOyx9EJ/R3nMujDCrim4HwlLWD5k73
-Unseal Key 4: FiMdy4Ra6OctR3m+Eul4Xv+tqudgA5+6P6fAZ3KXvXSX
-Unseal Key 5: syCYojeEp+yNv6JMwEjvQBj3JKib5ixAo18WlOhJlgj/
+Unseal Key 1: swYDskW6NXaSAnS9qw9i3LoHtKD9osgSYmElMZ2WnKZx
+Unseal Key 2: WvJ/iXj0eTVilG8Ah2Qd8TIC5W0lrtNVIwmumkUs86rw
+Unseal Key 3: mrXUPqw/FwODBZ0RBZIESTNLKOr7b4RTFRsNUacxhaF/
+Unseal Key 4: 582m4xbblhzCfZ2yESrib4xdUCLWtNK6OY5WFD539jof
+Unseal Key 5: aikfjmr7K7lcROAN2Fhr+tefFwVdQZQzOm0Ut5YygExf
 
-Initial Root Token: s.aFb21AW0eA44GfcEvHU8C1M8
+Initial Root Token: s.lI9ntwIVMMZnnhxMRAPg4zu5
 
 Vault initialized with 5 key shares and a key threshold of 3. Please securely
 distribute the key shares printed above. When the Vault is re-sealed,
@@ -96,7 +96,7 @@ vault operator unseal
 
 ## Authenticate with the initial root token
 ```shell
-vault login s.aFb21AW0eA44GfcEvHU8C1M8
+vault login s.lI9ntwIVMMZnnhxMRAPg4zu5
 ```
 
 ## Enable the database secrets engine

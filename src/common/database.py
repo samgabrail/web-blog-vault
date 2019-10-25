@@ -23,7 +23,7 @@ class Database(object):
         response = requests.get(
         'http://127.0.0.1:8200/v1/database/creds/my-role',
         params={'q': 'requests+language:python'},
-        headers={'X-Vault-Token': 's.aFb21AW0eA44GfcEvHU8C1M8'},
+        headers={'X-Vault-Token': 's.lI9ntwIVMMZnnhxMRAPg4zu5'},
         )
         json_response = response.json()
         Database.USER = json_response['data']['username']
