@@ -10,11 +10,11 @@ class Database(object):
     SERVER = env('DB_SERVER')
     PORT = env('DB_PORT')
     # Uncomment USER and PASSWORD below to grab creds from .env file
-    USER = env('DB_USER')
-    PASSWORD = env('DB_PASSWORD')
+    # USER = env('DB_USER')
+    # PASSWORD = env('DB_PASSWORD')
     # Uncomment USER and PASSWORD below to show Vault's functionality
-    # USER = None
-    # PASSWORD = None
+    USER = None
+    PASSWORD = None
     URI = ''
     DATABASE = None
 
@@ -23,7 +23,7 @@ class Database(object):
         response = requests.get(
         'http://127.0.0.1:8200/v1/database/creds/my-role',
         params={'q': 'requests+language:python'},
-        headers={'X-Vault-Token': 's.lI9ntwIVMMZnnhxMRAPg4zu5'},
+        headers={'X-Vault-Token': 's.ewt0JUqVxTVnU7fW04ZiKiYh'},
         )
         json_response = response.json()
         Database.USER = json_response['data']['username']
@@ -32,7 +32,8 @@ class Database(object):
     @staticmethod
     def initialize():
         # Uncomment the line below to show Vault's functionality
-        # Database.buildURI()
+        print('Initializing Database')
+        Database.buildURI()
         Database.URI = f'mongodb://{Database.USER}:{Database.PASSWORD}@{Database.SERVER}:{Database.PORT}'
         print(f'Server: {Database.SERVER} and PORT: {Database.PORT} and user: {Database.USER} and password: {Database.PASSWORD}')
         client = pymongo.MongoClient(Database.URI)

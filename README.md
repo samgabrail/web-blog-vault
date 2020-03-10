@@ -1,7 +1,7 @@
 Web blog
 ========
 
-This is a simple web blog to demo use cases with Hashicorp Vault.
+This is a simple web blog to demo use cases with Hashicorp Vault. The app communicates directly with Vault using the API.
 
 It uses python, flask, bootstrap, mongodb, consul, and vault.
 
@@ -64,7 +64,7 @@ Initial Root Token: s.ewt0JUqVxTVnU7fW04ZiKiYh
 ```
 
 ## Unseal the Vault
-Run the following command 3 times providing 3 out of the 5 unseal keys.
+Run the following command to unseal
 ```shell
 vault operator unseal
 ```
@@ -128,7 +128,7 @@ Change the `X-Vault-Token` value below to yours.
 response = requests.get(
 'http://127.0.0.1:8200/v1/database/creds/my-role',
 params={'q': 'requests+language:python'},
-headers={'X-Vault-Token': 's.lI9ntwIVMMZnnhxMRAPg4zu5'},
+headers={'X-Vault-Token': 's.ewt0JUqVxTVnU7fW04ZiKiYh'},
 )
 json_response = response.json()
 Database.USER = json_response['data']['username']
