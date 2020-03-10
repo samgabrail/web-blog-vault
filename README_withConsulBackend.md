@@ -21,7 +21,7 @@ db.createUser(
 Exit the mongo client
 ## Start the mongod instance with authentication enabled
 ```shell
-sudo mongod --auth --port 27017 --dbpath /Users/sam/Deployments/HashiCorp/mongo_data
+sudo mongod --auth --port 27017 --dbpath /var/lib/mongodb
 ```
 
 ## Start a new terminal window and authenticate as an admin user
@@ -29,17 +29,28 @@ sudo mongod --auth --port 27017 --dbpath /Users/sam/Deployments/HashiCorp/mongo_
 mongo --port 27017  --authenticationDatabase "admin" -u "sam" -p "test123"
 ```
 
+# [Consul Setup](https://learn.hashicorp.com/consul/getting-started/agent)
+
+We used consul for our storage backend for Vault. Run the command below to start consul in dev mode and enable the UI.
+```shell
+consul agent -data-dir /home/sam/SourcePrograms/consulData -bind 127.0.0.1 -ui -server -bootstrap
+```
+
+You can then access the UI at:
+http://127.0.0.1:8500/ui
+
 # [Vault setup](https://www.vaultproject.io/docs/secrets/databases/mongodb.html)
 
-## Using File Storage Backend
+## Using Consul for HA
 Start the vault server using a config file. 
 ```shell
 vault server -config=vaultConfig.hcl
 ```
 Content of the config file are below:
 ```shell
-storage "file" {
-  path = "/Users/sam/Deployments/HashiCorp/vault_data"
+storage "consul" {
+  address = "127.0.0.1:8500"
+  path    = "vault/"
 }
 
 listener "tcp" {
@@ -53,14 +64,28 @@ disable_mlock = true
 
 ```shell
 export VAULT_ADDR='http://127.0.0.1:8200'
-vault operator init -key-shares=1 -key-threshold=1
+vault operator init
 ```
 You get the following output. In production you typically would use [Vault's PGP and Keybase.io](https://www.vaultproject.io/docs/concepts/pgp-gpg-keybase.html) support to encrypt each of these keys so only one person has access to one key only.
 ```
-Unseal Key 1: 258G83eRO8SMqFWBRs9Bn+8yAdK7HVgtMiAkgOdh5iA=
+Unseal Key 1: swYDskW6NXaSAnS9qw9i3LoHtKD9osgSYmElMZ2WnKZx
+Unseal Key 2: WvJ/iXj0eTVilG8Ah2Qd8TIC5W0lrtNVIwmumkUs86rw
+Unseal Key 3: mrXUPqw/FwODBZ0RBZIESTNLKOr7b4RTFRsNUacxhaF/
+Unseal Key 4: 582m4xbblhzCfZ2yESrib4xdUCLWtNK6OY5WFD539jof
+Unseal Key 5: aikfjmr7K7lcROAN2Fhr+tefFwVdQZQzOm0Ut5YygExf
 
-Initial Root Token: s.ewt0JUqVxTVnU7fW04ZiKiYh
+Initial Root Token: s.lI9ntwIVMMZnnhxMRAPg4zu5
 
+Vault initialized with 5 key shares and a key threshold of 3. Please securely
+distribute the key shares printed above. When the Vault is re-sealed,
+restarted, or stopped, you must supply at least 3 of these keys to unseal it
+before it can start servicing requests.
+
+Vault does not store the generated master key. Without at least 3 key to
+reconstruct the master key, Vault will remain permanently sealed!
+
+It is possible to generate new unseal keys, provided you have a quorum of
+existing unseal keys shares. See "vault operator rekey" for more information.
 ```
 
 ## Unseal the Vault
@@ -71,7 +96,7 @@ vault operator unseal
 
 ## Authenticate with the initial root token
 ```shell
-vault login s.ewt0JUqVxTVnU7fW04ZiKiYh
+vault login s.lI9ntwIVMMZnnhxMRAPg4zu5
 ```
 
 ## Enable the database secrets engine
@@ -108,7 +133,7 @@ vault read database/creds/my-role
 Change the `X-Vault-Token` value below to work for yours.
 ```shell
 $ curl \
-    --header "X-Vault-Token: s.ewt0JUqVxTVnU7fW04ZiKiYh" \
+    --header "X-Vault-Token: s.lI9ntwIVMMZnnhxMRAPg4zu5" \
     http://127.0.0.1:8200/v1/database/creds/my-role
 ```
 
@@ -138,7 +163,7 @@ Database.URI = f'mongodb://{Database.USER}:{Database.PASSWORD}@{Database.SERVER}
 
 # Demo Steps
 
-0. Make sure you're logged out of the app. Have the VS code screen with the teriminal output showing. Also have the VS code screen side by side to the Chrome screen. My email is **sam** and password is **test123** to access the app.
+0. Make sure you're logged out of the app. Have the VS code screen with the teriminal output showing. Also have the VS code screen side by side to the Chrome screen.
 1. Comment and uncomment the lines in `databse.py` and `.env` to show the static hard-coded creds scenario.
 2. Log into the app
 3. Show the stdout in VS code's terminal showing the hard-coded username and password are the same as those in the `.env` file.

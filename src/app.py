@@ -3,6 +3,7 @@ from models.blog import Blog
 from models.post import Post
 from models.user import User
 
+
 __author__ = 'SamG'
 
 
@@ -39,16 +40,18 @@ def login_user():
 
     if User.login_valid(email, password):
         User.login(email)
+        session['email'] = email
     else:
-        session['email'] = None
+        return render_template("login.html")
 
     return render_template("profile.html", email=session['email'])
 
+
 @app.route('/logout', methods=['GET'])
 def logout_user():
-    session['email'] = None
+    [session.pop(key) for key in list(session.keys())]
 
-    return render_template("login.html", email=session['email'])
+    return render_template("login.html")
 
 @app.route('/auth/register', methods=['POST'])
 def register_user():
@@ -56,6 +59,7 @@ def register_user():
     password = request.form['password']
 
     User.register(email, password)
+    session['email'] = email
 
     return render_template("profile.html", email=session['email'])
 
@@ -63,8 +67,8 @@ def register_user():
 @app.route('/blogs/<string:user_id>')
 @app.route('/blogs')
 def user_blogs(user_id=None):
-    if session['email'] == None:
-        return render_template("login.html", email=session['email'])
+    if not session:
+        return render_template("login.html")
 
     if user_id is not None:
         user = User.get_by_id(user_id)
@@ -78,8 +82,8 @@ def user_blogs(user_id=None):
 
 @app.route('/blogs/new', methods=['POST', 'GET'])
 def create_new_blog():
-    if session['email'] == None:
-        return render_template("login.html", email=session['email'])
+    if not session:
+        return render_template("login.html")
 
     if request.method == 'GET':
         return render_template('new_blog.html')

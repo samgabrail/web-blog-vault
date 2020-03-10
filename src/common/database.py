@@ -10,11 +10,11 @@ class Database(object):
     SERVER = env('DB_SERVER')
     PORT = env('DB_PORT')
     # Uncomment USER and PASSWORD below to grab creds from .env file
-    #USER = env('DB_USER')
-    #PASSWORD = env('DB_PASSWORD')
+    USER = env('DB_USER')
+    PASSWORD = env('DB_PASSWORD')
     # Uncomment USER and PASSWORD below to show Vault's functionality
-    USER = None
-    PASSWORD = None
+    # USER = None
+    # PASSWORD = None
     URI = ''
     DATABASE = None
 
@@ -32,7 +32,7 @@ class Database(object):
     @staticmethod
     def initialize():
         # Uncomment the line below to show Vault's functionality
-        Database.buildURI()
+        # Database.buildURI()
         Database.URI = f'mongodb://{Database.USER}:{Database.PASSWORD}@{Database.SERVER}:{Database.PORT}'
         print(f'Server: {Database.SERVER} and PORT: {Database.PORT} and user: {Database.USER} and password: {Database.PASSWORD}')
         client = pymongo.MongoClient(Database.URI)
