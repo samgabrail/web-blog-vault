@@ -7,9 +7,15 @@ It uses python, flask, bootstrap, mongodb, consul, and vault.
 
 # [MongoDB Setup](https://docs.mongodb.com/manual/tutorial/enable-authentication/)
 
+## Start the mongod instance with no authentication
+```shell
+sudo mongod --port 27017 --dbpath /Users/sam/Deployments/HashiCorp/mongo_data
+```
+
 ## Create admin user creds
 From the mongo client inside the __admin__ database run the following:
 ```shell
+use admin
 db.createUser(
   {
     user: "sam",
