@@ -1,7 +1,7 @@
 Web blog
 ========
 
-This is a simple web blog to demo use cases with Hashicorp Vault. The app communicates directly with Vault using the API.
+This is a simple web blog to demo use cases with Hashicorp Vault. The app communicates directly with Vault using the API. This is for local demos only. web-blog-demo on Gitlab is used in the cloud on K8s.
 
 It uses python, flask, bootstrap, mongodb, consul, and vault.
 
