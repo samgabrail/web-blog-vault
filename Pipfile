@@ -4,13 +4,12 @@ url = "https://pypi.org/simple"
 verify_ssl = true
 
 [dev-packages]
-pylint = "*"
 
 [packages]
-Flask = "==1.1.1"
+pymongo = "==2.9"
 environs = "*"
-pymongo = "*"
 requests = "*"
+Flask = "==1.1.1"
 
 [requires]
 python_version = "3.7"
